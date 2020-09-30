@@ -3,6 +3,7 @@ package com.nightingale.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,4 +24,7 @@ public class Model {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "models", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Product> productos;
 }

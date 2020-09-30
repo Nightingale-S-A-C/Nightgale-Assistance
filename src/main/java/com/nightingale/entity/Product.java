@@ -31,13 +31,13 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private enumCategory category;
     // FK modelo producto
-
+    @ManyToOne
+    private Model modelo;
 
     
     // lista de imagenes
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Image> imageList;
-
 
 
     // Lista de comentarios
