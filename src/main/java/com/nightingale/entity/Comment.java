@@ -18,11 +18,15 @@ public class Comment {
     private Long id;
 
     // FK user
+    @ManyToOne
+    private User usuario;
 
     // FK product
+    @ManyToOne
+    private Product producto;
 
-    @Column(name = "description")
+    @Column(name = "description",nullable = false)
     private String description;
-    @Column(name = "puntuacion")
+    @Column(name = "rating")
     private Integer puntuacion;
 }

@@ -4,6 +4,7 @@ package com.nightingale.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,4 +23,7 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<Order> ordenes;
 }

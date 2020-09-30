@@ -44,6 +44,7 @@ public class Product {
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> commentList;
 
+    @Column(name = "stock")
     private Long stock;
 
     // lista de valores (TO DO tabla atributos)

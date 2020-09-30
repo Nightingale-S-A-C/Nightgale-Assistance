@@ -20,4 +20,6 @@ public class Image {
     private String path;
 
     // FK products
+    @ManyToOne
+    private Product producto;
 }

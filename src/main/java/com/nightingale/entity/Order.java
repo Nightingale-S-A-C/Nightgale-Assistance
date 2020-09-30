@@ -22,8 +22,13 @@ public class Order {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     // llave foranea user id
-    
+    @ManyToOne
+    @JoinColumn(name = "user_id",nullable = false)
+    private User usuario;
+
+
     @Column(name = "reg_date", nullable = false, updatable = false )// fecha
     private LocalDateTime regDate;
     
@@ -35,10 +40,11 @@ public class Order {
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> productList;
 
+    @Column(name = "payment",nullable = false)
     @NotNull
     @Enumerated(EnumType.STRING)
     private enumMetodoPago metodo;
 
-    @Column(name = "estado", nullable = true)
+    @Column(name = "status", nullable = true)
     private Boolean estado;
 }
