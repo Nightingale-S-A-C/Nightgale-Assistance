@@ -37,7 +37,7 @@ public class Order {
 
 
     // lista de productos
-    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> productList;
 
     @Column(name = "payment",nullable = false)

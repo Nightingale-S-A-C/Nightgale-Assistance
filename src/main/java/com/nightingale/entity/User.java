@@ -30,6 +30,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private enumRole role;
 
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Order> ordenes;
 }

@@ -25,6 +25,6 @@ public class Model {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "models", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> productos;
 }

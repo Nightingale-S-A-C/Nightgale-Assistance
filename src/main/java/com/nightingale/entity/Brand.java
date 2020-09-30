@@ -23,7 +23,7 @@ public class Brand {
     private String name;
 
     //Modelos
-    @OneToMany(mappedBy = "brands", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Model> modelos;
 
 }
