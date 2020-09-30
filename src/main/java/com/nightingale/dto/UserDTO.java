@@ -1,9 +1,7 @@
 package com.nightingale.dto;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -12,6 +10,8 @@ import javax.validation.constraints.NotNull;
 @Builder
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
     private Long id;
     @Length(min = 2, max = 50, message = "El nombre debe contener entre 2 y 50 caracteres" )
