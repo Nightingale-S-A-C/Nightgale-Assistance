@@ -1,6 +1,7 @@
 package com.nightingale.controller;
 
 
+import com.nightingale.converters.UserConverter;
 import com.nightingale.entity.User;
 import com.nightingale.exceptions.ResourceNotFoundException;
 import com.nightingale.repository.UserRepository;
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private UserConverter convert;
 
     @GetMapping("/users")
     public Page<User> getUser(Pageable pageable){

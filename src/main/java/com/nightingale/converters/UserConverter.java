@@ -1,13 +1,10 @@
 package com.nightingale.converters;
 
-import com.nightingale.dto.ProductDTO;
 import com.nightingale.dto.UserDTO;
-import com.nightingale.entity.Product;
 import com.nightingale.entity.User;
 import com.nightingale.utils.enumRole;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 public class UserConverter extends AbstractConverter<User, UserDTO>{
 
     @Override

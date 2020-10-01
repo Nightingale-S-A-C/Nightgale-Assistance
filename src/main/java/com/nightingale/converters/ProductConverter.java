@@ -4,7 +4,6 @@ import com.nightingale.dto.ProductDTO;
 import com.nightingale.entity.Product;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 public class ProductConverter extends AbstractConverter<Product, ProductDTO> {
 
     @Override
