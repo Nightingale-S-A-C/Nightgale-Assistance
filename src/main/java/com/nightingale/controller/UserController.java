@@ -21,17 +21,17 @@ public class UserController {
     @Autowired
     private UserRepository userRepo;
 
-    @GetMapping("/Users")
+    @GetMapping("/users")
     public Page<User> getUser(Pageable pageable){
         return userRepo.findAll(pageable);
     }
 
-    @PostMapping("/Users")
+    @PostMapping("/users")
     public User createUser(@RequestBody User user){
         return userRepo.save(user);
     }
 
-    @PutMapping("/Users/{userId}")
+    @PutMapping("/users/{userId}")
     public User UpdateUser( @PathVariable Long userId,
                             @RequestBody User userRequest) {
         return userRepo.findById(userId).map(user -> {
