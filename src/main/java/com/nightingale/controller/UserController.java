@@ -22,9 +22,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepo;
 
-    @Autowired
-    private UserConverter convert;
-
     @GetMapping("/users")
     public Page<User> getUser(Pageable pageable){
         return userRepo.findAll(pageable);
