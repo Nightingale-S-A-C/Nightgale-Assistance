@@ -1,7 +1,9 @@
 package com.nightingale.dto;
 
+import com.nightingale.utils.enumMetodoPago;
 import lombok.*;
 
+import javax.persistence.Column;
 import java.util.List;
 
 @Getter
@@ -12,6 +14,8 @@ import java.util.List;
 public class OrderDTO {
     private Long id;
     private String regDate;
-    private List<ProductDTO> productDTOList;
+    private List<OrderLineDTO> lines;
     private Double total;
+    private enumMetodoPago metodo;
+    private Boolean estado;
 }

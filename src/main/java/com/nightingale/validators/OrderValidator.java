@@ -1,34 +1,32 @@
 package com.nightingale.validators;
 import com.nightingale.entity.Order;
-import com.nightingale.entity.Product;
+import com.nightingale.entity.OrderLine;
+
 import com.nightingale.exceptions.ValidateServiceException;
 public class OrderValidator {
     public static void save(Order order) {
 
-        if(order.getProductList()==null || order.getProductList().isEmpty()){
-            throw new ValidateServiceException("La lista de productos es requerida");
+        if(order.getLines() == null || order.getLines().isEmpty()) {
+            throw new ValidateServiceException("Las líneas son requeridas");
         }
 
-        for(Product productsList: order.getProductList()) {
-            if(productsList.getId() == null) {
+        for(OrderLine line: order.getLines()) {
+            if(line.getProduct() == null || line.getProduct().getId() == null) {
                 throw new ValidateServiceException("El producto es requerido");
             }
-            if(productsList.getPrice() == null){
+            if(line.getPrice() == null){
                 throw new ValidateServiceException("El precio es requerido");
             }
-            if(productsList.getPrice() < 0) {
+            if(line.getPrice() < 0) {
                 throw new ValidateServiceException("El precio es incorrecto");
             }
 
-            if(productsList.getStock() == null){
+            if(line.getQuantity() == null){
                 throw new ValidateServiceException("La cantidad es requerido");
             }
-            if(productsList.getStock() < 0) {
+            if(line.getQuantity() < 0) {
                 throw new ValidateServiceException("La cantidad es incorrecto");
             }
         }
-
-
-
     }
 }

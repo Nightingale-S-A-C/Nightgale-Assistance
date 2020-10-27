@@ -23,22 +23,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // llave foranea user id
-    @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
-    private User usuario;
-
-
     @Column(name = "reg_date", nullable = false, updatable = false )// fecha
     private LocalDateTime regDate;
     
     @Column(name = "total", nullable = false)
     private Double total;
-
-
-    // lista de productos
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Product> productList;
 
     @Column(name = "payment",nullable = false)
     @NotNull
@@ -47,4 +36,8 @@ public class Order {
 
     @Column(name = "status", nullable = true)
     private Boolean estado;
+
+    @OneToMany(mappedBy = "order",
+            cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<OrderLine> lines;
 }

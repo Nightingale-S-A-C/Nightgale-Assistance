@@ -2,13 +2,19 @@ package com.nightingale.controller;
 
 
 import com.nightingale.converters.UserConverter;
+import com.nightingale.dto.LoginRequestDTO;
+import com.nightingale.dto.LoginResponseDTO;
+import com.nightingale.dto.SignupRequestDTO;
+import com.nightingale.dto.UserDTO;
 import com.nightingale.entity.User;
 import com.nightingale.exceptions.ResourceNotFoundException;
 import com.nightingale.repository.UserRepository;
 import com.nightingale.service.UserService;
+import com.nightingale.utils.WrapperResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,27 +26,24 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository userRepository;
 
-    @GetMapping("/users")
-    public Page<User> getUser(Pageable pageable){
-        return userRepo.findAll(pageable);
+    @Autowired
+    private UserConverter userConverter;
+
+    @PostMapping("/signup")
+    public ResponseEntity<WrapperResponse<UserDTO>> signup(@RequestBody SignupRequestDTO request){
+        User user=userService.createUser(userConverter.signup(request));
+        return new WrapperResponse<>(true,"success",userConverter.fromEntity(user))
+                .createResponse();
     }
 
-    @PostMapping("/users")
-    public User createUser(@RequestBody User user){
-        return userRepo.save(user);
+    @PostMapping("/login")
+    public ResponseEntity<WrapperResponse<LoginResponseDTO>> login(@RequestBody LoginRequestDTO request){
+        LoginResponseDTO response=userService.login(request);
+        return new WrapperResponse<>(true,"success",response)
+                .createResponse();
     }
 
-    @PutMapping("/users/{userId}")
-    public User UpdateUser( @PathVariable Long userId,
-                            @RequestBody User userRequest) {
-        return userRepo.findById(userId).map(user -> {
-            user.setName(userRequest.getName());
-            user.setEmail(userRequest.getEmail());
-            user.setPassword(userRequest.getPassword());
 
-            return userRepo.save(user);
-        }).orElseThrow(()->new ResourceNotFoundException("User not found with id = "+userId));
-    }
 }

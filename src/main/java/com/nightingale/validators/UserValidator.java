@@ -2,7 +2,7 @@ package com.nightingale.validators;
 import com.nightingale.entity.User;
 import com.nightingale.exceptions.ValidateServiceException;
 public class UserValidator {
-    public static void save(User user) {
+    public static void validate(User user) {
         if(user.getName() == null || user.getName().trim().isEmpty()){
             throw new ValidateServiceException("El nombres es requerido");
         }

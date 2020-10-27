@@ -2,13 +2,11 @@ package com.nightingale.converters;
 
 
 import com.nightingale.dto.OrderDTO;
-import com.nightingale.dto.ProductDTO;
+import com.nightingale.dto.OrderLineDTO;
 import com.nightingale.entity.Order;
-import com.nightingale.entity.Product;
+import com.nightingale.entity.OrderLine;
 import lombok.AllArgsConstructor;
 
-import javax.swing.text.DateFormatter;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +14,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class OrderConverter extends AbstractConverter<Order, OrderDTO> {
 
-    private DateTimeFormatter formatoTiempo;
+    private DateTimeFormatter dateTimeFormat;
     private ProductConverter productConverter;
 
     //De entity a DTO
@@ -25,51 +23,58 @@ public class OrderConverter extends AbstractConverter<Order, OrderDTO> {
         if (entity == null)
             return null;
 
-        List<ProductDTO> products = fromOrderProductsEntity(entity.getProductList());
+        List<OrderLineDTO> lines = fromOrderLineEntity(entity.getLines());
 
         return OrderDTO.builder()
                 .id(entity.getId())
-                .regDate(entity.getRegDate().format(formatoTiempo))
-                .productDTOList(products)
+                .lines(lines)
+                .regDate(entity.getRegDate().format(dateTimeFormat))
                 .total(entity.getTotal())
+                .metodo(entity.getMetodo())
+                .estado(entity.getEstado())
                 .build();
     }
 
-    private List<ProductDTO> fromOrderProductsEntity(List<Product> productos) {
-        if(productos == null) return null;
+    @Override
+    public Order fromDTO(OrderDTO dto) {
+        if (dto == null) return null;
 
-        return productos.stream().map(producto -> {
-            return ProductDTO.builder()
-                    .id(producto.getId())
-                    .name(producto.getName())
-                    .price(producto.getPrice())
+        List<OrderLine> lines = fromOrderLineDTO(dto.getLines());
+
+        return Order.builder()
+                .id(dto.getId())
+                .lines(lines)
+                .total(dto.getTotal())
+                .metodo(dto.getMetodo())
+                .estado(dto.getEstado())
+                .build();
+    }
+
+    private List<OrderLineDTO> fromOrderLineEntity(List<OrderLine> lines) {
+        if(lines == null) return null;
+
+        return lines.stream().map(line -> {
+            return OrderLineDTO.builder()
+                    .id(line.getId())
+                    .price(line.getPrice())
+                    .product(productConverter.fromEntity(line.getProduct()))
+                    .quantity(line.getQuantity())
+                    .total(line.getTotal())
                     .build();
         })
                 .collect(Collectors.toList());
     }
 
-    //De DTO a Entity
-    @Override
-    public Order fromDTO(OrderDTO dto) {
-        if (dto == null) return null;
+    private List<OrderLine> fromOrderLineDTO(List<OrderLineDTO> lines) {
+        if(lines == null) return null;
 
-        List<Product> products = fromProductDTO(dto.getProductDTOList());
-
-        return Order.builder()
-                .id(dto.getId())
-                .regDate(LocalDateTime.parse(dto.getRegDate()))
-                .total(dto.getTotal())
-                .build();
-    }
-
-    private List<Product> fromProductDTO(List<ProductDTO> productos) {
-        if(productos == null) return null;
-
-        return productos.stream().map(producto -> {
-            return Product.builder()
-                    .id(producto.getId())
-                    .name(producto.getName())
-                    .price(producto.getPrice())
+        return lines.stream().map(line -> {
+            return OrderLine.builder()
+                    .id(line.getId())
+                    .price(line.getPrice())
+                    .product(productConverter.fromDTO(line.getProduct()))
+                    .quantity(line.getQuantity())
+                    .total(line.getTotal())
                     .build();
         })
                 .collect(Collectors.toList());

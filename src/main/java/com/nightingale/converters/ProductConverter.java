@@ -14,6 +14,10 @@ public class ProductConverter extends AbstractConverter<Product, ProductDTO> {
                 .id(entity.getId())
                 .name(entity.getName())
                 .price(entity.getPrice())
+                .description(entity.getDescription())
+                .category(entity.getCategory())
+                .modelo(entity.getModelo())
+                .stock(entity.getStock())
                 .build();
     }
 
@@ -24,6 +28,10 @@ public class ProductConverter extends AbstractConverter<Product, ProductDTO> {
                 .id(dto.getId())
                 .name(dto.getName())
                 .price(dto.getPrice())
+                .description(dto.getDescription())
+                .category(dto.getCategory())
+                .modelo(dto.getModelo())
+                .stock(dto.getStock())
                 .build();
     }
 }
