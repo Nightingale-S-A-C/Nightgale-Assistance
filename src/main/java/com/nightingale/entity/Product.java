@@ -36,12 +36,12 @@ public class Product {
 
     
     // lista de imagenes
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Image> imageList;
 
 
     // Lista de comentarios
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> commentList;
 
     @Column(name = "stock")
