@@ -34,7 +34,7 @@ public class UserService {
     public User createUser(User user) {
         try {
             UserValidator.validate(user);
-            User existUser=userRepository.findByUsername(user.getName())
+            User existUser=userRepository.findByName(user.getName())
                     .orElse(null);
             if(existUser!=null)
                 throw new ValidateServiceException("El nombre usuario ya existe");
@@ -48,7 +48,7 @@ public class UserService {
 
     public LoginResponseDTO login(LoginRequestDTO request){
         try {
-            User user=userRepository.findByUsername(request.getName())
+            User user=userRepository.findByName(request.getName())
                     .orElseThrow(()->new ValidateServiceException("Usuario o password incorrecto"));
 
             if(!user.getPassword().equals(request.getPassword()))
