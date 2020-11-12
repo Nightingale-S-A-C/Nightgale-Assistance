@@ -16,6 +16,7 @@ public class OrderConverter extends AbstractConverter<Order, OrderDTO> {
 
     private DateTimeFormatter dateTimeFormat;
     private ProductConverter productConverter;
+    private UserConverter userConverter;
 
     //De entity a DTO
     @Override
@@ -32,6 +33,7 @@ public class OrderConverter extends AbstractConverter<Order, OrderDTO> {
                 .total(entity.getTotal())
                 .metodo(entity.getMetodo())
                 .estado(entity.getEstado())
+                .user(userConverter.fromEntity(entity.getUser()))
                 .build();
     }
 
@@ -47,6 +49,7 @@ public class OrderConverter extends AbstractConverter<Order, OrderDTO> {
                 .total(dto.getTotal())
                 .metodo(dto.getMetodo())
                 .estado(dto.getEstado())
+                .user(userConverter.fromDTO(dto.getUser()))
                 .build();
     }
 

@@ -3,7 +3,6 @@ package com.nightingale.dto;
 import com.nightingale.utils.enumMetodoPago;
 import lombok.*;
 
-import javax.persistence.Column;
 import java.util.List;
 
 @Getter
@@ -18,4 +17,5 @@ public class OrderDTO {
     private Double total;
     private enumMetodoPago metodo;
     private Boolean estado;
+    private UserDTO user;
 }
