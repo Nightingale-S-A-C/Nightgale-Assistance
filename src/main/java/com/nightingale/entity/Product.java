@@ -6,7 +6,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,24 +29,11 @@ public class Product {
     @NotNull
     @Enumerated(EnumType.STRING)
     private enumCategory category;
-    // FK modelo producto
-    @ManyToOne
-    private Model modelo;
-
-    
-    // lista de imagenes
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Image> imageList;
-
-
-    // Lista de comentarios
-    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //private List<Comment> commentList;
 
     @Column(name = "stock")
     private Long stock;
 
-    // lista de valores (TO DO tabla atributos)
+
 
 
 

@@ -2,7 +2,6 @@ package com.nightingale.converters;
 
 import com.nightingale.dto.ProductDTO;
 import com.nightingale.entity.Product;
-import lombok.AllArgsConstructor;
 
 public class ProductConverter extends AbstractConverter<Product, ProductDTO> {
 
@@ -16,7 +15,6 @@ public class ProductConverter extends AbstractConverter<Product, ProductDTO> {
                 .price(entity.getPrice())
                 .description(entity.getDescription())
                 .category(entity.getCategory())
-                .modelo(entity.getModelo())
                 .stock(entity.getStock())
                 .build();
     }
@@ -30,7 +28,6 @@ public class ProductConverter extends AbstractConverter<Product, ProductDTO> {
                 .price(dto.getPrice())
                 .description(dto.getDescription())
                 .category(dto.getCategory())
-                .modelo(dto.getModelo())
                 .stock(dto.getStock())
                 .build();
     }

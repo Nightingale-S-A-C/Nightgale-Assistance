@@ -1,15 +1,8 @@
 package com.nightingale.dto;
 
-import com.nightingale.entity.Comment;
-import com.nightingale.entity.Image;
-import com.nightingale.entity.Model;
 import com.nightingale.utils.enumCategory;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Builder
 @Getter
@@ -23,7 +16,6 @@ public class ProductDTO {
     private Double price;
     private String description;
     private enumCategory category;
-    private Model modelo;
     private Long stock;
 
 }
