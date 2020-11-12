@@ -1,7 +1,10 @@
 package com.nightingale.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 @NoArgsConstructor
@@ -18,15 +21,23 @@ public class Comment {
     private Long id;
 
     // FK user
-    @ManyToOne
-    private User usuario;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private User user;
 
     // FK product
-    @ManyToOne
-    private Product producto;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Product product;
+
 
     @Column(name = "description",nullable = false)
     private String description;
+
     @Column(name = "rating")
     private Integer puntuacion;
 }

@@ -1,7 +1,6 @@
 package com.nightingale.entity;
 
 import com.nightingale.utils.enumMetodoPago;
-import com.nightingale.entity.Product;
 import lombok.*;
 
 import javax.persistence.*;
@@ -40,4 +39,8 @@ public class Order {
     @OneToMany(mappedBy = "order",
             cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderLine> lines;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", updatable = false)
+    private User user;
 }

@@ -41,8 +41,8 @@ public class Product {
 
 
     // Lista de comentarios
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment> commentList;
+    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //private List<Comment> commentList;
 
     @Column(name = "stock")
     private Long stock;
