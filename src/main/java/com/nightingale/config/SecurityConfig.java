@@ -43,8 +43,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 )
                 .permitAll()
                 .antMatchers(
-                        "/login",
-                        "/signup",
+                        "/users/signup",
+                        "/users/login",
                         "/orders",
                         "/customers",
                         "/products",
