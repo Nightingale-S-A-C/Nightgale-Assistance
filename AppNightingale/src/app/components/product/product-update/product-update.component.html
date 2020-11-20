@@ -1,0 +1,35 @@
+<h1 class="title">Actualizar un producto</h1>
+<h2 class="subtitle">Desde aquí podrá actualizar la información del producto.</h2>
+
+<div class="has-text-centered is-size-3 section">
+  -- procesando --
+</div>
+
+<form class="section">
+  <div class="field">
+    <label class="label">Nombre</label>
+    <div class="control">
+      <input required minlength="10" name="name" class="input" type="text"
+             placeholder="Ingrese el nombre del producto">
+    </div>
+
+
+  </div>
+
+  <div class="field">
+    <label class="label">Precio</label>
+    <div class="control">
+      <input required minlength="1" name="price" class="input" type="number" placeholder="Ingrese el precio">
+    </div>
+
+  </div>
+
+  <div class="field is-grouped">
+    <div class="control">
+      <button class="button is-link is-medium">Guardar</button>
+    </div>
+    <div class="control">
+      <a routerLink="/producto" class="button is-link is-light is-medium">Volver</a>
+    </div>
+  </div>
+</form>

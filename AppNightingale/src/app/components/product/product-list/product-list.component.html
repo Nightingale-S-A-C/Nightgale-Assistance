@@ -1,0 +1,14 @@
+<div class="columns is-vcentered section">
+  <div class="column has-text-right">
+    <a [routerLink]="['create']" class="button is-primary is-medium">Registrar un nuevo producto</a>
+  </div>
+</div>
+
+
+<div  class="columns is-multiline section">
+  <app-product-detail class="column is-4"></app-product-detail>
+</div>
+
+<div *ngIf="products.length" class="has-text-centered is-size-4 section">
+  - no se han encontrado registros -
+</div>
