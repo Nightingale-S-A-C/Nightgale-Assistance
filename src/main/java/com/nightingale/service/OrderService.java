@@ -4,12 +4,14 @@ package com.nightingale.service;
 import com.nightingale.entity.Order;
 import com.nightingale.entity.OrderLine;
 import com.nightingale.entity.Product;
+import com.nightingale.entity.User;
 import com.nightingale.exceptions.GeneralServiceException;
 import com.nightingale.exceptions.NoDataFoundException;
 import com.nightingale.exceptions.ValidateServiceException;
 import com.nightingale.repository.OrderLineRepository;
 import com.nightingale.repository.OrderRepository;
 import com.nightingale.repository.ProductRepository;
+import com.nightingale.security.UserPrincipal;
 import com.nightingale.validators.OrderValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +80,8 @@ public class OrderService {
         try {
             OrderValidator.save(order);
 
+            User user= UserPrincipal.getCurrentUser();
+
             double total = 0;
             for(OrderLine line : order.getLines()) {
                 Product product = productRepository.findById(line.getProduct().getId())
@@ -92,6 +96,7 @@ public class OrderService {
 
             //Create Order
             if(order.getId() == null) {
+                order.setUser(user);
                 order.setRegDate(LocalDateTime.now());
                 return orderRepository.save(order);
             }
@@ -99,11 +104,11 @@ public class OrderService {
             //Update Order
             Order savedOrder = orderRepository.findById(order.getId())
                     .orElseThrow(() -> new NoDataFoundException("La orden no existe"));
-            //RegDate no se cambia, se mantiene la de creacion
+
             order.setRegDate(savedOrder.getRegDate());
 
-            List<OrderLine> deletedLines = savedOrder.getLines();//Obtiene las lineas asociadas a la order obtenida
-            deletedLines.removeAll(order.getLines());//Elimina las lineas asociadas a la orden
+            List<OrderLine> deletedLines = savedOrder.getLines();
+            deletedLines.removeAll(order.getLines());
             orderLineRepository.deleteAll(deletedLines);
 
             return orderRepository.save(order);

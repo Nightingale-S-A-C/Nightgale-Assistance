@@ -37,15 +37,10 @@ public class ProductController {
                 .createResponse(HttpStatus.OK);
     }
 
-    // /products?pageNumber=1&pageSize=10
-    @GetMapping
-    public ResponseEntity<List<ProductDTO>> findAll(
-            @RequestParam(value="pageNumber", required = false, defaultValue = "0") int pageNumber,
-            @RequestParam(value="pageSize", required = false, defaultValue = "10") int pageSize
-    ){
 
-        Pageable page = PageRequest.of(pageNumber, pageSize);
-        List<Product> products = productService.findAll(page);
+    @GetMapping
+    public ResponseEntity<List<ProductDTO>> findAll(){
+        List<Product> products = productService.findAll();
         List<ProductDTO> dtoProducts = converter.fromEntity(products);
 
         return new WrapperResponse(true, "success", dtoProducts)

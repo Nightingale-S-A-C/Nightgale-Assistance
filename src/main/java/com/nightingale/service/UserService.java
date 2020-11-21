@@ -9,19 +9,22 @@ import com.nightingale.exceptions.NoDataFoundException;
 import com.nightingale.exceptions.ValidateServiceException;
 import com.nightingale.repository.UserRepository;
 import com.nightingale.validators.UserValidator;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
+@Slf4j
 @Service
 public class UserService {
 
-    @Value("myScretKey")
+    @Value("${jwt.password}")
     private String jwtSecret;
 
     @Autowired
@@ -29,6 +32,9 @@ public class UserService {
 
     @Autowired
     private UserConverter userConverter;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public User createUser(User user) {
@@ -38,10 +44,27 @@ public class UserService {
                     .orElse(null);
             if(existUser!=null)
                 throw new ValidateServiceException("El nombre usuario ya existe");
+
+            String encoder=passwordEncoder.encode(user.getPassword());
+            user.setPassword(encoder);
+
             return userRepository.save(user);
         } catch (ValidateServiceException | NoDataFoundException e) {
             throw e;
         } catch (Exception e) {
+            throw new GeneralServiceException(e.getMessage(), e);
+        }
+    }
+
+    public List<User> findAll(){
+        try {
+            List<User> users = userRepository.findAll();
+            return users;
+        } catch (ValidateServiceException | NoDataFoundException e) {
+            log.info(e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
             throw new GeneralServiceException(e.getMessage(), e);
         }
     }
@@ -51,7 +74,7 @@ public class UserService {
             User user=userRepository.findByName(request.getName())
                     .orElseThrow(()->new ValidateServiceException("Usuario o password incorrecto"));
 
-            if(!user.getPassword().equals(request.getPassword()))
+            if(!passwordEncoder.matches(request.getPassword(),user.getPassword()))
                 throw new ValidateServiceException("Usuario o password incorrectos");
 
             String token =createToken(user);
@@ -74,6 +97,31 @@ public class UserService {
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512,jwtSecret).compact();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+            return true;
+        }catch (UnsupportedJwtException e) {
+            log.error("JWT in a particular format/configuration that does not match the format expected");
+        }catch (MalformedJwtException e) {
+            log.error(" JWT was not correctly constructed and should be rejected");
+        }catch (SignatureException e) {
+            log.error("Signature or verifying an existing signature of a JWT failed");
+        }catch (ExpiredJwtException e) {
+            log.error("JWT was accepted after it expired and must be rejected");
+        }
+        return false;
+    }
+
+    public String getUsernameFromToken(String jwt) {
+        try {
+            return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt).getBody().getSubject();
+        } catch (Exception e) {
+            throw new ValidateServiceException("Invalid Token");
+        }
+
     }
 
 

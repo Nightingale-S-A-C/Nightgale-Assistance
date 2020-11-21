@@ -52,9 +52,9 @@ public class ProductService {
 
     }
 
-    public List<Product> findAll(Pageable page){
+    public List<Product> findAll(){
         try {
-            List<Product> products = productRepository.findAll(page).toList();
+            List<Product> products = productRepository.findAll();
             return products;
         } catch (ValidateServiceException | NoDataFoundException e) {
             log.info(e.getMessage(), e);
@@ -80,6 +80,9 @@ public class ProductService {
 
             exitProduct.setName(product.getName());
             exitProduct.setPrice(product.getPrice());
+            exitProduct.setCategory(product.getCategory());
+            exitProduct.setDescription(product.getDescription());
+            exitProduct.setStock(product.getStock());
 
             productRepository.save(exitProduct);
 

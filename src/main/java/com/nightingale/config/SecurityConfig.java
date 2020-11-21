@@ -1,25 +1,42 @@
 package com.nightingale.config;
 
 import com.nightingale.security.RestAuthenticationEntryPoint;
+import com.nightingale.security.TokenAuthenticationFilter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
+    @Bean
+    public TokenAuthenticationFilter createTokenAuthenticationFilter() {
+        return new TokenAuthenticationFilter();
+    }
+
+    @Bean
+    public PasswordEncoder createPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.
-                cors()
-                .and()
+        http
+                //.cors()
+                //.and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().
-                csrf()
+                .and()
+                .csrf()
                 .disable()
                 .formLogin()
                 .disable()
@@ -42,9 +59,10 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                         "/**/*.woff2"
                 )
                 .permitAll()
+
                 .antMatchers(
-                        "/login",
-                        "/signup",
+                        "/users/login",
+                        "/users/signup",
                         "/orders",
                         "/customers",
                         "/products",
@@ -55,9 +73,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 )
                 .permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+        ;
 
 
+        http.addFilterBefore(createTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
 }
