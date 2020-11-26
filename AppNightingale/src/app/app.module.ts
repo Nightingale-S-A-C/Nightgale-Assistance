@@ -6,8 +6,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DefaultComponent } from './components/default/default.component';
-import { NosotrosComponent } from './components/nosotros/nosotros.component';
-import { ContactoComponent } from './components/contacto/contacto.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProductCreateComponent } from './components/product/product-create/product-create.component';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
@@ -22,8 +20,6 @@ import {FormsModule} from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     DefaultComponent,
-    NosotrosComponent,
-    ContactoComponent,
     LoginComponent,
     ProductCreateComponent,
     ProductListComponent,
